@@ -2,13 +2,17 @@
 " staretab.vim
 " ------------------------------------------------------------------------------
 
+" Minimum "minimum tab length" is 10.
+let s:MIN_MIN_TAB_LEN = 10
+
 " Default minimum tab length is 15.
 let s:DEF_MIN_TAB_LEN = 15
 
 " This function is set on the setting of tabline.
 function! staretab#tabline()
     if exists('g:staretab#min_tab_len')
-                                \ && type(g:staretab#min_tab_len) == v:t_number
+                                && type(g:staretab#min_tab_len) == v:t_number
+                                && g:staretab#min_tab_len >= s:MIN_MIN_TAB_LEN
         let l:min_tab_len = g:staretab#min_tab_len
     else
         let l:min_tab_len = s:DEF_MIN_TAB_LEN
