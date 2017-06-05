@@ -8,10 +8,15 @@ let s:MIN_MIN_TAB_LEN = 10
 " Default minimum tab length is 15.
 let s:DEF_MIN_TAB_LEN = 15
 
+" Settings for old Vim without the following constants.
+let s:true     = exists('v:true')     ? v:true     : 1
+let s:false    = exists('v:false')    ? v:false    : 0
+let s:t_number = exists('v:t_number') ? v:t_number : 0
+
 " This function is set on the setting of tabline.
 function! staretab#tabline()
     if exists('g:staretab#min_tab_len')
-                              \ && type(g:staretab#min_tab_len) == v:t_number
+                              \ && type(g:staretab#min_tab_len) == s:t_number
                               \ && g:staretab#min_tab_len >= s:MIN_MIN_TAB_LEN
         let l:min_tab_len = g:staretab#min_tab_len
     else
@@ -23,7 +28,7 @@ function! staretab#tabline()
     let l:head_tab_num = 1
     let l:foot_tab_num = l:tab_num
     let l:tl_len = &columns
-    let l:is_overflow = l:min_tab_len * l:tab_num > l:tl_len ? v:true : v:false
+    let l:is_overflow = l:min_tab_len * l:tab_num > l:tl_len ? s:true : s:false
     let l:tabline = ''
     let l:tl_foot = ''
 
