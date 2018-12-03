@@ -22,8 +22,8 @@ function! staretab#tabline()
 endfunction
 
 function! s:load_min_tab_len() abort
-    let l:has_set_min_tab_len = exists('g:staretab#min_tab_len') && (type(g:staretab#min_tab_len) == 0)
-    if l:has_set_min_tab_len && (g:staretab#min_tab_len >= s:MIN_MIN_TAB_LEN)
+    if exists('g:staretab#min_tab_len') && (type(g:staretab#min_tab_len) == type(0))
+                \ && (g:staretab#min_tab_len >= s:MIN_MIN_TAB_LEN)
         return g:staretab#min_tab_len
     else
         return s:DEF_MIN_TAB_LEN
@@ -94,7 +94,7 @@ function! s:create_tabline(tab_num, cur_tab_id, tabline_len, min_tab_len, is_ove
         let l:filename = s:load_filename(l:buf_id, l:tab_len)
         let l:tab_len -= strwidth(l:filename)
 
-        let l:tab_string = l:tab_id . l:filename . l:add_info . s:pad_space(l:tab_len)
+        let l:tab_string = l:tab_id . l:filename . l:add_info . repeat(' ', l:tab_len)
 
         if a:is_overflow
             let l:tab_string = s:hew_edge_str(l:tab_string, a:edge_tab_info, l:i)
@@ -147,15 +147,6 @@ function! s:load_filename(buf_id, tab_len) abort
 
     let l:filename .= ' '
     return l:filename
-endfunction
-
-function! s:pad_space(padding_len) abort
-    let l:padding = ''
-    for l:i in range(a:padding_len)
-        let l:padding .= ' '
-    endfor
-
-    return l:padding
 endfunction
 
 function! s:hew_edge_str(tab_string, edge_tab_info, id) abort
